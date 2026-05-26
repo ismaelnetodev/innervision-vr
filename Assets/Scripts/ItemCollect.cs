@@ -1,57 +1,58 @@
 using UnityEngine;
-using UnityEditor.UI;
-using TMPro;
 
 public class ItemCollect : MonoBehaviour
 {
-    
-    [Header("Conteudo do artefato")]
-    public string titulo;
+    [Header("Conteúdo do Artefato")]
+    public string titulo = "Título do Artefato";
 
     [TextArea(4, 10)]
-    public string descricao;
+    public string descricao = "Descrição histórica do artefato.";
 
-    [Header("Painel de Informação")]
-    public Canvas canvas;
-    public TMP_Text textoPainel;
-
-    [Header("Narração")]
+    [Header("Áudio Opcional")]
     public AudioClip audioNarracao;
-    public AudioSource audioSource;
-    public bool tocarAudioAoInteragir = true;
-    public bool paraAudioAoSoltar = true;
 
-    void Start()
-    {
-        if (canvas != null) canvas.enabled = false;
-        if (audioSource != null) audioSource = GetComponent<AudioSource>();
-        if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.playOnAwake = false;
-    }
+    [Header("Objeto visual que será reduzido")]
+    public Transform objetoVisual;
 
-    // Update is called once per frame
-    void Update()
+    [Header("Escala ao pegar")]
+    public bool reduzirAoPegar = true;
+
+    [Tooltip("0.5 = metade do tamanho original. 0.25 = um quarto do tamanho original.")]
+    public float multiplicadorEscalaAoPegar = 0.45f;
+
+    private Vector3 escalaOriginal;
+
+    private void Awake()
     {
-        
+        if (objetoVisual != null)
+        {
+            escalaOriginal = objetoVisual.localScale;
+        }
     }
 
     public void ShowCanvas()
     {
-        if (textoPainel != null) textoPainel.text = "<b>" + titulo + "</b>\n\n" + descricao;
-
-        if (canvas != null) canvas.enabled = true;
-
-        if (tocarAudioAoInteragir && audioNarracao != null && audioSource != null)
+        if (InfoPanelManager.Instance != null)
         {
-            audioSource.Stop();
-            audioSource.clip = audioNarracao;
-            audioSource.play();
+            InfoPanelManager.Instance.Show(titulo, descricao, audioNarracao, transform);
+        }
+
+        if (reduzirAoPegar && objetoVisual != null)
+        {
+            objetoVisual.localScale = escalaOriginal * multiplicadorEscalaAoPegar;
         }
     }
 
     public void HideCanvas()
     {
-        if (canvas != null) canvas.enabled = false;
-        if (paraAudioAoSoltar && audioSource != null && audioSource.isPlaying) audioSource.Stop();
+        if (InfoPanelManager.Instance != null)
+        {
+            InfoPanelManager.Instance.Hide();
+        }
+
+        if (reduzirAoPegar && objetoVisual != null)
+        {
+            objetoVisual.localScale = escalaOriginal;
+        }
     }
 }

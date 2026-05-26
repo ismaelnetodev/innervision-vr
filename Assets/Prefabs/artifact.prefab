@@ -132,9 +132,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db732104deee2f4fa0bc64287c21153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemCollect
-  itemData: {fileID: 0}
-  canvas: {fileID: 2564531632935935746}
-  TextMeshPro: {fileID: 8065580489175152256}
+  titulo: "T\xEDtulo do Artefato"
+  descricao: "Descri\xE7\xE3o hist\xF3rica do artefato."
+  audioNarracao: {fileID: 0}
+  infoPanelManager: {fileID: 0}
+  visual: {fileID: 0}
+  reduzirAoPegar: 1
+  multiplicadorEscalaAoPegar: 0.45
 --- !u!54 &2886581033100933875
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -515,7 +519,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &8621677694621111766
 MonoBehaviour:
   m_ObjectHideFlags: 0
